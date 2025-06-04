@@ -4,11 +4,12 @@ import './App.css';
 import bgimg from './assets/bg-1.png';
 import { useState } from 'react';
 import data from './data.js';
-import { Routes, Route, Link } from 'react-router-dom'
-import DetailPage from './pages/DetailPage.jsx';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
+import DetailPage from './routes/DetailPage.jsx';
 
 function App() {
   const [shopData, setShopData] = useState(data);
+  const navigate = useNavigate();
   return (
     <>
       <div className="App">
@@ -17,8 +18,9 @@ function App() {
           <Container>
             <Navbar.Brand href="#home">ShoeShop</Navbar.Brand>
             <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
-              <Nav.Link href="#features">Cart</Nav.Link>
+              <Nav.Link onClick={()=>{navigate('/')}}>Home</Nav.Link>
+              <Nav.Link onClick={()=>{navigate('/detail')}}>Detail</Nav.Link>
+              <Nav.Link onClick={()=>{navigate(-1)}}>Back</Nav.Link>
             </Nav>
           </Container>
         </Navbar>
