@@ -34,6 +34,13 @@ function App() {
           <Route path="/" element={
             <>
               <div className="main-bg" style={{ backgroundImage: `url(${bgimg})` }}></div>
+              <div style={{textAlign : "center"}}>
+                <button onClick={()=>{
+                  let copyData = [...shopData];
+                  let sortData = copyData.sort((a, b) => a.title.localeCompare(b.title));
+                  setShopData(sortData);
+                }}>가다나순 정렬</button>
+              </div>
               <div className="container">
                 <div className="row">
                   {
@@ -47,7 +54,7 @@ function App() {
               </div>
             </>
           } />
-          <Route path="/detail" element={<DetailPage />} />
+          <Route path="/detail/:id" element={<DetailPage propsShoes={shopData} />} />
           <Route path="/about" element={<AboutPage />}>
             <Route path="member" element={<div>member</div>} />
           </Route>
@@ -63,11 +70,14 @@ function App() {
 }
 
 function CardItem({ propsShoes }) {
+  const navigate = useNavigate();
   return (
     <>
-      <img src={`https://codingapple1.github.io/shop/shoes${propsShoes.id + 1}.jpg`} width="80%" />
-      <h4>{propsShoes.title}</h4>
-      <p>{propsShoes.content}</p>
+      <div onClick={()=>{navigate(`/detail/${propsShoes.id}`)}}>
+        <img src={`https://codingapple1.github.io/shop/shoes${propsShoes.id + 1}.jpg`} width="80%" />
+        <h4>{propsShoes.title}</h4>
+        <p>{propsShoes.content}</p>
+      </div>
     </>
   )
 }

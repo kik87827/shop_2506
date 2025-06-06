@@ -1,15 +1,28 @@
-function DetailPage() {
+import { useParams } from "react-router-dom";
+
+function DetailPage({propsShoes}) {
+    const {id} = useParams();
+    const id_number = Number(id);
+    /* const detailShoes = propsShoes.find(()=>{
+        return pitem.id === id;
+    });
+    console.log(detailShoes) */
+    const detailShoes = propsShoes.find((item)=>{
+        return item.id === id_number;
+    })
+
+    
     return (
         <div className="container">
             <div className="row">
                 <div className="col-md-6">
-                <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
+                    <img src={`https://codingapple1.github.io/shop/shoes${detailShoes.id+1}.jpg`} width="100%" />
                 </div>
                 <div className="col-md-6">
-                <h4 className="pt-5">상품명</h4>
-                <p>상품설명</p>
-                <p>120000원</p>
-                <button className="btn btn-danger">주문하기</button> 
+                    <h4 className="pt-5">{ detailShoes.title }</h4>
+                    <p>{ detailShoes.content }</p>
+                    <p>{ detailShoes.price }</p>
+                    <button className="btn btn-danger">주문하기</button> 
                 </div>
             </div>
         </div> 
