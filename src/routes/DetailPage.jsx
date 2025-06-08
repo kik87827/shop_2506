@@ -1,5 +1,19 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
+
+{/* <Detail2></Detail2>
+class Detail2 extends React.Component {
+    componentDidMount() {
+        
+    }
+    componentDidUpdate() {
+        
+    }
+    componentWillUnmount() {
+        
+    }
+} */}
 
 let Btn = styled.button`
     background : ${props => props.bg};
@@ -26,10 +40,38 @@ function DetailPage({propsShoes}) {
     const detailShoes = propsShoes.find((item)=>{
         return item.id === id_number;
     })
-
     
+    let [count, setCount] = useState(0);
+    let [alert, setAlert] = useState(true);
+    let [inputValue, setInputValue] = useState('');
+    let [warn, setWarn] = useState(false);
+
+    useEffect(() => {
+        /* console.log('안녕');
+        let timerID = setTimeout(() => {
+            setAlert(false);
+        }, 2000);
+        return () => {
+            console.log(1);
+            if (timerID) {
+                clearTimeout(timerID);
+            }
+        } */
+        
+        setWarn(isNaN(inputValue));
+    },[inputValue])
+
+
     return (
         <div className="container">
+            {
+                alert ? <div className="alert alert-warning">
+                    2초이내 구매시 할인
+                </div> : null
+            }
+            
+            {count}
+            <button onClick={()=>{ setCount(count+1) }}>버튼</button>
             <Box>
                 <Btn bg="blue">버튼</Btn>
                 <Btn bg="yellow">버튼</Btn>
@@ -41,6 +83,15 @@ function DetailPage({propsShoes}) {
                     <img src={`https://codingapple1.github.io/shop/shoes${detailShoes.id+1}.jpg`} width="100%" />
                 </div>
                 <div className="col-md-6">
+                    <div>
+                        {/* <input type="text" onChange={(e) => {
+                            setWarn(isNaN(e.target.value));
+                        }} /> */}
+                        <input type="text" value={inputValue} onChange={(e) => { setInputValue(e.target.value) }} />
+                        {
+                            warn ? <p style={{ color: 'red' }}>숫자만 입력하세요</p> : null
+                        }
+                    </div>
                     <h4 className="pt-5">{ detailShoes.title }</h4>
                     <p>{ detailShoes.content }</p>
                     <p>{ detailShoes.price }</p>

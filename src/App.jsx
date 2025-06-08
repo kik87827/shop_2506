@@ -8,9 +8,11 @@ import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import DetailPage from './routes/DetailPage.jsx';
 import AboutPage from './routes/AboutPage.jsx';
 import EventPage from './routes/EventPage.jsx';
+import axios from 'axios';
 
 function App() {
   const [shopData, setShopData] = useState(data);
+  const [moreBtn, setMoreBtn] = useState(true);
   const navigate = useNavigate();
   return (
     <>
@@ -51,6 +53,23 @@ function App() {
                     )
                   }
                 </div>
+              </div>
+              <div>
+                {
+                  moreBtn ? <button onClick={() => {
+                axios.get('https://codingapple1.github.io/shop/data2.json').then((result) => {
+                  console.log(result.data);
+                  let copyData = [...shopData];
+                  copyData.push(...result.data);
+                  setShopData(copyData);
+                  setMoreBtn(false);
+                }).catch(() => {
+                  console.log('실패')
+                })
+                }}>더보기</button> : null
+                }
+                
+                
               </div>
             </>
           } />
