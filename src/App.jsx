@@ -13,6 +13,7 @@ import axios from 'axios';
 function App() {
   const [shopData, setShopData] = useState(data);
   const [moreBtn, setMoreBtn] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const navigate = useNavigate();
   return (
     <>
@@ -54,19 +55,26 @@ function App() {
                   }
                 </div>
               </div>
+              {
+                loadingMore ? <div>Loading...</div> : ''
+              }
+              
               <div>
                 {
                   moreBtn ? <button onClick={() => {
-                axios.get('https://codingapple1.github.io/shop/data2.json').then((result) => {
-                  console.log(result.data);
-                  let copyData = [...shopData];
-                  copyData.push(...result.data);
-                  setShopData(copyData);
-                  setMoreBtn(false);
-                }).catch(() => {
-                  console.log('실패')
-                })
-                }}>더보기</button> : null
+                    axios.get('https://codingapple1.github.io/shop/data2.json').then((result) => {
+                      console.log(result.data);
+                      let copyData = [...shopData];
+                      copyData.push(...result.data);
+                      setShopData(copyData);
+                      setLoadingMore(true);
+                      setMoreBtn(false);
+                      setLoadingMore(false);
+                    }).catch(() => {
+                      console.log('실패');
+                      setLoadingMore(false);
+                    })
+                  }}>더보기</button> : null
                 }
                 
                 
