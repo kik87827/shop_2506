@@ -13,6 +13,7 @@ import axios from 'axios';
 function App() {
   const [shopData, setShopData] = useState(data);
   const [moreBtn, setMoreBtn] = useState(true);
+  const [moreClickCount,setMoreClickCount] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
   const navigate = useNavigate();
   return (
@@ -62,7 +63,35 @@ function App() {
               <div>
                 {
                   moreBtn ? <button onClick={() => {
-                    axios.get('https://codingapple1.github.io/shop/data2.json').then((result) => {
+                    Promise.all([
+                      axios.get('https://codingapple1.github.io/shop/data2.json'),
+                      axios.get('https://codingapple1.github.io/shop/data3.json')
+                    ])
+                    .then(([res1,res2]) => {
+                      let copyData = [...shopData];
+                      setMoreClickCount(moreClickCount + 1);
+                      if(moreClickCount === 0){
+                        // console.log('data2',res1.data);
+                        setLoadingMore(true);
+                        copyData.push(...res1.data);
+                      }else if(moreClickCount === 1){
+                        // console.log('data3',res2.data);
+                        setLoadingMore(true);
+                        copyData.push(...res2.data);
+                        setMoreBtn(false)
+                      }else{
+                        setLoadingMore(false);
+                      }
+                      setTimeout(()=>{
+                        setLoadingMore(false);
+                      },50);
+                      setShopData(copyData);
+                      
+                    }).catch(() => {
+                      console.log('실패');
+                      setLoadingMore(false);
+                    })
+                    /* axios.get('https://codingapple1.github.io/shop/data2.json').then((result) => {
                       console.log(result.data);
                       let copyData = [...shopData];
                       copyData.push(...result.data);
@@ -73,7 +102,7 @@ function App() {
                     }).catch(() => {
                       console.log('실패');
                       setLoadingMore(false);
-                    })
+                    }) */
                   }}>더보기</button> : null
                 }
                 
