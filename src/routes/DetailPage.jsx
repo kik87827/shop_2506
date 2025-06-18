@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Nav } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
 
@@ -45,6 +46,7 @@ function DetailPage({propsShoes}) {
     let [alert, setAlert] = useState(true);
     let [inputValue, setInputValue] = useState('');
     let [warn, setWarn] = useState(false);
+    let [tab, setTab] = useState(1);
 
     useEffect(() => {
         /* console.log('안녕');
@@ -98,8 +100,25 @@ function DetailPage({propsShoes}) {
                     <button className="btn btn-danger">주문하기</button> 
                 </div>
             </div>
+
+            <Nav variant="tabs" defaultActiveKey={tab}>
+                <Nav.Item>
+                    <Nav.Link eventKey={0} onClick={()=>{setTab(0)}}>Tab1</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey={1} onClick={()=>{setTab(1)}}>Tab2</Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                    <Nav.Link eventKey={2} onClick={()=>{setTab(2)}}>Tab3</Nav.Link>
+                </Nav.Item>
+            </Nav>     
+            <TabContents tabIndex={tab} />
         </div> 
     )
+}
+
+function TabContents({tabIndex}) {
+    return [<div>내용1</div>,<div>내용2</div>,<div>내용3</div>][tabIndex]
 }
 
 export default DetailPage;
