@@ -48,6 +48,8 @@ function DetailPage({propsShoes}) {
     let [warn, setWarn] = useState(false);
     let [tab, setTab] = useState(1);
 
+    let [detailFade, setDetailFade] = useState('');
+
     useEffect(() => {
         /* console.log('안녕');
         let timerID = setTimeout(() => {
@@ -61,11 +63,20 @@ function DetailPage({propsShoes}) {
         } */
         
         setWarn(isNaN(inputValue));
-    },[inputValue])
+    }, [inputValue])
+    
+    useState(() => {
+        let detailSet = setTimeout(() => {
+            setDetailFade('end')
+        },50);
+        return () => {
+            clearTimeout(detailSet);
+        }
+    }, []);
 
 
     return (
-        <div className="container">
+        <div className={`container start ${detailFade}`}>
             {
                 alert ? <div className="alert alert-warning">
                     2초이내 구매시 할인
@@ -117,8 +128,21 @@ function DetailPage({propsShoes}) {
     )
 }
 
-function TabContents({tabIndex}) {
-    return [<div>내용1</div>,<div>내용2</div>,<div>내용3</div>][tabIndex]
+function TabContents({ tabIndex }) {
+    const [fade, setFade] = useState(''); 
+    useEffect(() => {
+        let fadeTime = setTimeout(() => {
+            setFade('end');
+        }, 30);
+        return () => {
+            clearTimeout(fadeTime);
+            setFade('');
+        }
+    },[tabIndex])
+
+    return (<div className={`start ${fade}`}>
+        {[<div>내용1</div>, <div>내용2</div>, <div>내용3</div>][tabIndex]}
+     </div>)
 }
 
 export default DetailPage;
