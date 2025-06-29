@@ -2,7 +2,7 @@
 import { Button, Container, Nav, Navbar } from 'react-bootstrap'
 import './App.css';
 import bgimg from './assets/bg-1.png';
-import { useState } from 'react';
+import { createContext, useState } from 'react';
 import data from './data.js';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom'
 import DetailPage from './routes/DetailPage.jsx';
@@ -10,8 +10,11 @@ import AboutPage from './routes/AboutPage.jsx';
 import EventPage from './routes/EventPage.jsx';
 import axios from 'axios';
 
+export let Context1 = createContext();
+
 function App() {
   const [shopData, setShopData] = useState(data);
+  const [storeData,setStoreData] = useState([10,11,12]);
   const [moreBtn, setMoreBtn] = useState(true);
   const [moreClickCount,setMoreClickCount] = useState(0);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -110,7 +113,11 @@ function App() {
               </div>
             </>
           } />
-          <Route path="/detail/:id" element={<DetailPage propsShoes={shopData} />} />
+          <Route path="/detail/:id" element={
+            <Context1.Provider value={{ storeData, shopData }}>
+              <DetailPage propsShoes={shopData} />
+            </Context1.Provider>
+          } />
           <Route path="/about" element={<AboutPage />}>
             <Route path="member" element={<div>member</div>} />
           </Route>

@@ -1,7 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Nav } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import styled from 'styled-components';
+
+import {Context1} from './../App'
 
 {/* <Detail2></Detail2>
 class Detail2 extends React.Component {
@@ -32,6 +34,9 @@ let Box = styled.div`
 `
 
 function DetailPage({propsShoes}) {
+
+    let {storeData,shopData} = useContext(Context1);
+
     const {id} = useParams();
     const id_number = Number(id);
     /* const detailShoes = propsShoes.find(()=>{
@@ -84,6 +89,13 @@ function DetailPage({propsShoes}) {
             }
             
             {count}
+
+            <br />
+
+            {storeData[0]}
+
+            <br />
+
             <button onClick={()=>{ setCount(count+1) }}>버튼</button>
             <Box>
                 <Btn bg="blue">버튼</Btn>
@@ -130,6 +142,7 @@ function DetailPage({propsShoes}) {
 
 function TabContents({ tabIndex }) {
     const [fade, setFade] = useState(''); 
+    let {storeData,shopData} = useContext(Context1);
     useEffect(() => {
         let fadeTime = setTimeout(() => {
             setFade('end');
@@ -141,7 +154,7 @@ function TabContents({ tabIndex }) {
     },[tabIndex])
 
     return (<div className={`start ${fade}`}>
-        {[<div>내용1</div>, <div>내용2</div>, <div>내용3</div>][tabIndex]}
+        {[<div>{storeData}</div>, <div>내용2</div>, <div>내용3</div>][tabIndex]}
      </div>)
 }
 
