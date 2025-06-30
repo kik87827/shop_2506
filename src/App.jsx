@@ -9,6 +9,7 @@ import DetailPage from './routes/DetailPage.jsx';
 import AboutPage from './routes/AboutPage.jsx';
 import EventPage from './routes/EventPage.jsx';
 import axios from 'axios';
+import CartPage from './routes/CartPage.jsx';
 
 export let Context1 = createContext();
 
@@ -126,6 +127,7 @@ function App() {
             <Route path="two" element={<div>생일기념 쿠폰받기</div>} />
           </Route>
           <Route path="*" element={<div>없는페이지요</div>} />
+          <Route path="/cart" element={<CartPage />} />
         </Routes>
       </div>
     </>
